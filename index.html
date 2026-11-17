@@ -27,7 +27,7 @@
   --card:          #241752;
 
   --text:          #F2EEFF;
-  --muted:         #C9C0EC; /* Исправлен контраст (было #B8AEE0) */
+  --muted:         #C9C0EC;
 
   --radius:        20px;
   --shadow:        0 10px 30px rgba(0,0,0,.35);
@@ -37,9 +37,9 @@
 *{ margin:0; padding:0; box-sizing:border-box; }
 
 html{
-  scroll-behavior: smooth;      /* плавная прокрутка по якорям */
-  scroll-padding-top: 90px;     /* компенсация sticky-хедера */
-  overflow-x: clip;             /* Безопасная замена hidden для sticky */
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+  overflow-x: clip;
 }
 
 body{
@@ -50,7 +50,6 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-/* Кастомный скроллбар (для webkit) */
 ::-webkit-scrollbar{ width:10px; }
 ::-webkit-scrollbar-track{ background:#0E0922; }
 ::-webkit-scrollbar-thumb{
@@ -58,7 +57,6 @@ body{
   border-radius: 10px;
 }
 
-/* Фокус для доступности */
 :focus-visible {
   outline: 3px solid var(--yellow);
   outline-offset: 3px;
@@ -66,7 +64,7 @@ body{
 }
 
 /* ============================================================
-   2. HEADER / НАВИГАЦИЯ (sticky)
+   2. HEADER / НАВИГАЦИЯ
    ============================================================ */
 .header{
   position: sticky;
@@ -88,7 +86,6 @@ body{
   gap: 18px;
 }
 
-/* Логотип */
 .logo{
   display: flex;
   align-items: center;
@@ -124,7 +121,6 @@ body{
   color: transparent;
 }
 
-/* Меню */
 .nav{
   display: flex;
   align-items: center;
@@ -149,21 +145,25 @@ body{
 .nav a:active{ transform: translateY(0); }
 
 /* ============================================================
-   3. HERO-БЛОК
+   3. HERO-БЛОК (с анимированным градиентом)
    ============================================================ */
 .hero{
   position: relative;
   overflow: hidden;
   padding: 108px 20px 132px;
   text-align: center;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(123,44,191,.65), transparent 52%),
-    radial-gradient(circle at 88% 8%,  rgba(45,156,255,.42), transparent 48%),
-    radial-gradient(circle at 50% 105%, rgba(255,107,53,.40), transparent 55%),
-    var(--dark);
+  /* Анимированный градиент (Mesh Gradient) */
+  background: linear-gradient(-45deg, #140E2E, #2a1b4d, #1E1440, #140E2E);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
 }
 
-/* Декоративные светящиеся пятна */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .blob{
   position: absolute;
   border-radius: 50%;
@@ -194,7 +194,6 @@ body{
   to  { opacity: 1; transform: translateY(0); }
 }
 
-/* Плашка над заголовком */
 .hero__badge{
   display: inline-flex;
   align-items: center;
@@ -252,7 +251,6 @@ body{
   justify-content: center;
 }
 
-/* ---- Кнопки (общий стиль) ---- */
 .btn{
   display: inline-flex;
   align-items: center;
@@ -295,7 +293,6 @@ body{
   box-shadow: 0 16px 34px rgba(123,44,191,.42);
 }
 
-/* Мини-статистика под кнопками */
 .hero__stats{
   display: flex;
   flex-wrap: wrap;
@@ -430,14 +427,12 @@ body{
   border-radius: 40px;
 }
 
-/* Сетка каталога: ровно 3 карточки в ряд */
 .brawlers__grid{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 26px;
 }
 
-/* Палитры бойцов */
 .brawler--shelly{ --c1:#FFD93D; --c2:#FF6B35; --accent:#FF9A2E; }
 .brawler--colt  { --c1:#5AC8FF; --c2:#2D5BFF; --accent:#2D9CFF; }
 .brawler--spike { --c1:#A8FF60; --c2:#00B87C; --accent:#3BE08A; }
@@ -445,14 +440,12 @@ body{
 .brawler--primo { --c1:#FFB347; --c2:#E63946; --accent:#FF6B35; }
 .brawler--piper { --c1:#FFB6E1; --c2:#B14BFF; --accent:#E85BD0; }
 
-/* Редкости */
 .brawler[data-rarity="common"]    { --rarity:#8A8FB0; }
 .brawler[data-rarity="rare"]      { --rarity:#2D9CFF; }
 .brawler[data-rarity="super-rare"]{ --rarity:#9D4EDD; }
 .brawler[data-rarity="mythic"]    { --rarity:#E63946; }
 .brawler[data-rarity="legendary"] { --rarity:#FFD93D; }
 
-/* Карточка бойца */
 .brawler{
   position: relative;
   padding: 32px 24px 28px;
@@ -462,12 +455,11 @@ body{
   border: 1px solid rgba(157,78,221,.24);
   box-shadow: var(--shadow);
   overflow: hidden;
-  transition: transform .34s cubic-bezier(.2,.8,.3,1.15),
-              box-shadow .34s ease,
-              border-color .34s ease;
+  /* Убрали transform из transition, чтобы не конфликтовало с JS-параллаксом */
+  transition: box-shadow .34s ease, border-color .34s ease;
+  will-change: transform;
 }
 
-/* Цветное свечение карточки в цвет бойца */
 .brawler::before{
   content: "";
   position: absolute;
@@ -480,7 +472,6 @@ body{
 }
 
 .brawler:hover{
-  transform: translateY(-12px);
   border-color: var(--accent);
   box-shadow: 0 26px 52px rgba(0,0,0,.55),
               0 0 0 1px var(--accent),
@@ -488,7 +479,6 @@ body{
 }
 .brawler:hover::before{ opacity: .34; }
 
-/* Стили для реальных картинок бойцов */
 .brawler__img {
   display: block;
   width: 96px;
@@ -506,7 +496,6 @@ body{
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
 }
 
-/* Аватар-заглушка с инициалами (для бойцов без фото) */
 .brawler__avatar{
   position: relative;
   width: 96px; height: 96px;
@@ -538,7 +527,6 @@ body{
   margin-bottom: 12px;
 }
 
-/* Теги класса и редкости */
 .brawler__tags{
   display: flex;
   flex-wrap: wrap;
@@ -558,7 +546,6 @@ body{
   border: 1px solid rgba(255,255,255,.09);
 }
 
-/* Редкость: базовые значения работают и в браузерах без color-mix() */
 .tag--rarity{
   color: var(--rarity);
   background: rgba(255,255,255,.07);
@@ -647,7 +634,6 @@ body{
 .footer__contact:hover{ color: #fff; }
 .footer__contact span{ font-size: 1.05rem; }
 
-/* Нижняя полоса футера */
 .footer__bottom{
   max-width: var(--container);
   margin: 52px auto 0;
@@ -663,7 +649,6 @@ body{
 }
 .footer__bottom b{ color: var(--muted); }
 
-/* Внешние ссылки */
 a[target="_blank"]::after {
   content: " ↗";
   font-size: 0.85em;
@@ -687,7 +672,6 @@ a[target="_blank"]::after {
 
   .header__inner{ padding: 10px 14px; gap: 10px; }
 
-  /* Меню становится горизонтально прокручиваемым */
   .nav{
     overflow-x: auto;
     scrollbar-width: none;
@@ -716,7 +700,6 @@ a[target="_blank"]::after {
   .footer__bottom{ justify-content: center; text-align: center; }
   .brawler{ padding: 26px 20px 24px; }
   
-  /* Уменьшаем картинки и заглушки на мобильных */
   .brawler__img,
   .brawler__avatar{ 
     width: 82px; 
@@ -727,7 +710,6 @@ a[target="_blank"]::after {
   }
 }
 
-/* Уважаем настройку «уменьшить движение» */
 @media (prefers-reduced-motion: reduce){
   *{ animation-duration: .001ms !important; transition-duration: .001ms !important; }
   html{ scroll-behavior: auto; }
@@ -737,68 +719,46 @@ a[target="_blank"]::after {
 
 <body>
 
-<!-- ============================================================
-     HEADER / НАВИГАЦИЯ (sticky)
-     ============================================================ -->
 <header class="header">
   <div class="header__inner">
-
     <a href="#home" class="logo" aria-label="BrawlPedia — на главную">
       <span class="logo__mark">B</span>
       <span class="logo__text">Brawl<b>Pedia</b></span>
     </a>
-
     <nav class="nav" aria-label="Основная навигация">
       <a href="#home">Главная</a>
       <a href="#about">О проекте</a>
       <a href="#brawlers">Бойцы</a>
       <a href="#contacts">Контакты</a>
     </nav>
-
   </div>
 </header>
 
-
-<!-- ============================================================
-     HERO-БЛОК
-     ============================================================ -->
 <section class="hero" id="home">
-  <!-- Декоративные светящиеся пятна -->
   <div class="blob blob--1"></div>
   <div class="blob blob--2"></div>
   <div class="blob blob--3"></div>
 
   <div class="hero__inner">
-
     <div class="hero__badge"><span></span>Фан-портал по Brawl Stars</div>
-
     <h1>Вся <em>Brawl Stars</em><br>в одном месте</h1>
-
     <p>
       BrawlPedia — база знаний, созданная игроками для игроков.
       Характеристики бойцов, редкости, классы, гайды и свежие советы
       по мете — всё, чтобы побеждать в каждом бою.
     </p>
-
     <div class="hero__actions">
-      <!-- Кнопка плавно прокручивает к каталогу бойцов -->
       <a href="#brawlers" class="btn btn--primary">Смотреть бойцов →</a>
       <a href="#about" class="btn btn--ghost">О проекте</a>
     </div>
-
     <div class="hero__stats">
       <div class="hero__stat"><b>90+</b><span>Бойцов</span></div>
       <div class="hero__stat"><b>12</b><span>Режимов</span></div>
       <div class="hero__stat"><b>24/7</b><span>Обновления</span></div>
     </div>
-
   </div>
 </section>
 
-
-<!-- ============================================================
-     БЛОК «О ПРОЕКТЕ»
-     ============================================================ -->
 <section class="section" id="about">
   <div class="section__head">
     <div class="section__kicker">О проекте</div>
@@ -809,7 +769,6 @@ a[target="_blank"]::after {
   </div>
 
   <div class="about__grid">
-
     <article class="about__card">
       <div class="about__icon">📚</div>
       <h3>База знаний</h3>
@@ -818,7 +777,6 @@ a[target="_blank"]::after {
         гаджеты и звёздные силы. Всё структурировано и всегда под рукой.
       </p>
     </article>
-
     <article class="about__card">
       <div class="about__icon">🎯</div>
       <h3>Гайды и мета</h3>
@@ -827,7 +785,6 @@ a[target="_blank"]::after {
         Помогаем выбрать персонажа под свой стиль игры.
       </p>
     </article>
-
     <article class="about__card">
       <div class="about__icon">🤝</div>
       <h3>Сообщество</h3>
@@ -836,14 +793,9 @@ a[target="_blank"]::after {
         и вместе следим за балансом.
       </p>
     </article>
-
   </div>
 </section>
 
-
-<!-- ============================================================
-     КАТАЛОГ БОЙЦОВ
-     ============================================================ -->
 <section class="section brawlers" id="brawlers">
   <div class="section__head">
     <div class="section__kicker">Каталог</div>
@@ -855,7 +807,6 @@ a[target="_blank"]::after {
 
   <div class="brawlers__grid">
 
-    <!-- 1. Шелли (с картинкой) -->
     <article class="brawler brawler--shelly" data-rarity="common">
       <img src="images/Portrait_Shelly.webp" alt="Шелли" class="brawler__img" loading="lazy" width="96" height="96">
       <h3 class="brawler__name">Шелли</h3>
@@ -869,7 +820,6 @@ a[target="_blank"]::after {
       </p>
     </article>
 
-    <!-- 2. Кольт (с картинкой) -->
     <article class="brawler brawler--colt" data-rarity="rare">
       <img src="images/Portrait_Colt.webp" alt="Кольт" class="brawler__img" loading="lazy" width="96" height="96">
       <h3 class="brawler__name">Кольт</h3>
@@ -883,7 +833,6 @@ a[target="_blank"]::after {
       </p>
     </article>
 
-    <!-- 3. Спайк (с картинкой) -->
     <article class="brawler brawler--spike" data-rarity="legendary">
       <img src="images/Portrait_Spike.webp" alt="Спайк" class="brawler__img" loading="lazy" width="96" height="96">
       <h3 class="brawler__name">Спайк</h3>
@@ -897,7 +846,6 @@ a[target="_blank"]::after {
       </p>
     </article>
 
-    <!-- 4. Леон (заглушка) -->
     <article class="brawler brawler--leon" data-rarity="legendary">
       <div class="brawler__avatar">Л</div>
       <h3 class="brawler__name">Леон</h3>
@@ -911,7 +859,6 @@ a[target="_blank"]::after {
       </p>
     </article>
 
-    <!-- 5. Эль Примо (заглушка) -->
     <article class="brawler brawler--primo" data-rarity="super-rare">
       <div class="brawler__avatar">ЭП</div>
       <h3 class="brawler__name">Эль Примо</h3>
@@ -925,7 +872,6 @@ a[target="_blank"]::after {
       </p>
     </article>
 
-    <!-- 6. Пайпер (заглушка) -->
     <article class="brawler brawler--piper" data-rarity="mythic">
       <div class="brawler__avatar">П</div>
       <h3 class="brawler__name">Пайпер</h3>
@@ -942,14 +888,8 @@ a[target="_blank"]::after {
   </div>
 </section>
 
-
-<!-- ============================================================
-     FOOTER / КОНТАКТЫ
-     ============================================================ -->
 <footer class="footer" id="contacts">
   <div class="footer__inner">
-
-    <!-- Бренд -->
     <div class="footer__brand">
       <a href="#home" class="logo">
         <span class="logo__mark">B</span>
@@ -961,7 +901,6 @@ a[target="_blank"]::after {
       </p>
     </div>
 
-    <!-- Навигация -->
     <div class="footer__col">
       <h4>Разделы</h4>
       <ul>
@@ -972,7 +911,6 @@ a[target="_blank"]::after {
       </ul>
     </div>
 
-    <!-- Официальные ресурсы Supercell -->
     <div class="footer__col">
       <h4>Официально</h4>
       <ul>
@@ -983,7 +921,6 @@ a[target="_blank"]::after {
       </ul>
     </div>
 
-    <!-- Контакты -->
     <div class="footer__col">
       <h4>Связаться с нами</h4>
       <a class="footer__contact" href="mailto:hello@brawlpedia.gg">
@@ -996,15 +933,41 @@ a[target="_blank"]::after {
         <span>🎮</span> Discord-сообщество
       </a>
     </div>
-
   </div>
 
-  <!-- Нижняя полоса -->
   <div class="footer__bottom">
     <div>© 2025 <b>BrawlPedia</b>. Все права защищены.</div>
     <div>Fan-made проект. Brawl Stars — торговая марка <b>Supercell Oy</b>.</div>
   </div>
 </footer>
+
+<!-- ============================================================
+     СКРИПТ ПАРАЛЛАКСА (наклон карточек за мышкой)
+     ============================================================ -->
+<script>
+document.querySelectorAll('.brawler').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 10; // чем больше делитель, тем слабее наклон
+    const rotateY = (centerX - x) / 10;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+    // Плавно возвращаем на место
+    card.style.transition = 'transform 0.4s ease';
+    setTimeout(() => {
+      card.style.transition = 'box-shadow .34s ease, border-color .34s ease';
+    }, 400);
+  });
+});
+</script>
 
 </body>
 </html>
