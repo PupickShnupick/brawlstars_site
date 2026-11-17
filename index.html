@@ -27,7 +27,7 @@
   --card:          #241752;
 
   --text:          #F2EEFF;
-  --muted:         #C9C0EC;;
+  --muted:         #C9C0EC; /* Исправлен контраст (было #B8AEE0) */
 
   --radius:        20px;
   --shadow:        0 10px 30px rgba(0,0,0,.35);
@@ -39,6 +39,7 @@
 html{
   scroll-behavior: smooth;      /* плавная прокрутка по якорям */
   scroll-padding-top: 90px;     /* компенсация sticky-хедера */
+  overflow-x: clip;             /* Безопасная замена hidden для sticky */
 }
 
 body{
@@ -46,7 +47,6 @@ body{
   background: var(--dark);
   color: var(--text);
   line-height: 1.65;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -56,6 +56,13 @@ body{
 ::-webkit-scrollbar-thumb{
   background: linear-gradient(var(--purple-light), var(--blue));
   border-radius: 10px;
+}
+
+/* Фокус для доступности */
+:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 /* ============================================================
@@ -423,15 +430,14 @@ body{
   border-radius: 40px;
 }
 
-/* Сетка каталога: ровно 3 карточки в ряд (6 бойцов = 2 ровных ряда).
-   auto-fit давал 4 + 2 и «рваный» второй ряд с пустотой справа. */
+/* Сетка каталога: ровно 3 карточки в ряд */
 .brawlers__grid{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 26px;
 }
 
-/* Палитры бойцов: цвета вынесены из разметки в CSS */
+/* Палитры бойцов */
 .brawler--shelly{ --c1:#FFD93D; --c2:#FF6B35; --accent:#FF9A2E; }
 .brawler--colt  { --c1:#5AC8FF; --c2:#2D5BFF; --accent:#2D9CFF; }
 .brawler--spike { --c1:#A8FF60; --c2:#00B87C; --accent:#3BE08A; }
@@ -439,7 +445,7 @@ body{
 .brawler--primo { --c1:#FFB347; --c2:#E63946; --accent:#FF6B35; }
 .brawler--piper { --c1:#FFB6E1; --c2:#B14BFF; --accent:#E85BD0; }
 
-/* Редкости: единый источник цвета вместо --rarity в style="" */
+/* Редкости */
 .brawler[data-rarity="common"]    { --rarity:#8A8FB0; }
 .brawler[data-rarity="rare"]      { --rarity:#2D9CFF; }
 .brawler[data-rarity="super-rare"]{ --rarity:#9D4EDD; }
@@ -482,7 +488,25 @@ body{
 }
 .brawler:hover::before{ opacity: .34; }
 
-/* Аватар-заглушка с инициалами */
+/* Стили для реальных картинок бойцов */
+.brawler__img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+  transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.3, 1.4), box-shadow 0.38s ease;
+  background: var(--card);
+}
+.brawler:hover .brawler__img {
+  transform: scale(1.09) rotate(-6deg);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
+}
+
+/* Аватар-заглушка с инициалами (для бойцов без фото) */
 .brawler__avatar{
   position: relative;
   width: 96px; height: 96px;
@@ -639,6 +663,13 @@ body{
 }
 .footer__bottom b{ color: var(--muted); }
 
+/* Внешние ссылки */
+a[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
 /* ============================================================
    8. АДАПТИВНОСТЬ
    ============================================================ */
@@ -664,7 +695,7 @@ body{
     max-width: 100%;
   }
   .nav::-webkit-scrollbar{ display: none; }
-  .nav a{ font-size: 13.5px; padding: 7px 11px; }
+  .nav a{ font-size: 13.5px; padding: 7px 11px; min-height: 44px; display: inline-flex; align-items: center; }
 
   .logo{ font-size: 18px; }
   .logo__mark{ width: 34px; height: 34px; font-size: 16px; border-radius: 11px; }
@@ -684,7 +715,16 @@ body{
   .footer{ padding: 48px 18px 24px; }
   .footer__bottom{ justify-content: center; text-align: center; }
   .brawler{ padding: 26px 20px 24px; }
-  .brawler__avatar{ width: 82px; height: 82px; font-size: 27px; }
+  
+  /* Уменьшаем картинки и заглушки на мобильных */
+  .brawler__img,
+  .brawler__avatar{ 
+    width: 82px; 
+    height: 82px; 
+  }
+  .brawler__avatar {
+    font-size: 27px;
+  }
 }
 
 /* Уважаем настройку «уменьшить движение» */
@@ -815,9 +855,9 @@ body{
 
   <div class="brawlers__grid">
 
-    <!-- 1. Шелли -->
+    <!-- 1. Шелли (с картинкой) -->
     <article class="brawler brawler--shelly" data-rarity="common">
-      <div class="brawler__avatar">Ш</div>
+      <img src="images/Portrait_Shelly.webp" alt="Шелли" class="brawler__img" loading="lazy" width="96" height="96">
       <h3 class="brawler__name">Шелли</h3>
       <div class="brawler__tags">
         <span class="tag">Урон</span>
@@ -829,9 +869,9 @@ body{
       </p>
     </article>
 
-    <!-- 2. Кольт -->
+    <!-- 2. Кольт (с картинкой) -->
     <article class="brawler brawler--colt" data-rarity="rare">
-      <div class="brawler__avatar">К</div>
+      <img src="images/Portrait_Colt.webp" alt="Кольт" class="brawler__img" loading="lazy" width="96" height="96">
       <h3 class="brawler__name">Кольт</h3>
       <div class="brawler__tags">
         <span class="tag">Стрелок</span>
@@ -843,9 +883,9 @@ body{
       </p>
     </article>
 
-    <!-- 3. Спайк -->
+    <!-- 3. Спайк (с картинкой) -->
     <article class="brawler brawler--spike" data-rarity="legendary">
-      <div class="brawler__avatar">С</div>
+      <img src="images/Portrait_Spike.webp" alt="Спайк" class="brawler__img" loading="lazy" width="96" height="96">
       <h3 class="brawler__name">Спайк</h3>
       <div class="brawler__tags">
         <span class="tag">Стрелок</span>
@@ -857,7 +897,7 @@ body{
       </p>
     </article>
 
-    <!-- 4. Леон -->
+    <!-- 4. Леон (заглушка) -->
     <article class="brawler brawler--leon" data-rarity="legendary">
       <div class="brawler__avatar">Л</div>
       <h3 class="brawler__name">Леон</h3>
@@ -871,7 +911,7 @@ body{
       </p>
     </article>
 
-    <!-- 5. Эль Примо -->
+    <!-- 5. Эль Примо (заглушка) -->
     <article class="brawler brawler--primo" data-rarity="super-rare">
       <div class="brawler__avatar">ЭП</div>
       <h3 class="brawler__name">Эль Примо</h3>
@@ -885,7 +925,7 @@ body{
       </p>
     </article>
 
-    <!-- 6. Пайпер -->
+    <!-- 6. Пайпер (заглушка) -->
     <article class="brawler brawler--piper" data-rarity="mythic">
       <div class="brawler__avatar">П</div>
       <h3 class="brawler__name">Пайпер</h3>
