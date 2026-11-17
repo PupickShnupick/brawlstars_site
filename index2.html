@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BrawlPedia — фан-портал по Brawl Stars. Изучай бойцов, их способности, классы и тактики игры.">
+    <title>BrawlPedia — база знаний Brawl Stars</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================
+           1. БАЗОВЫЕ НАСТРОЙКИ
+        ========================== */
+
+        :root {
+            --yellow: #ffd52e;
+            --orange: #ff8a24;
+            --purple: #853cff;
+            --blue: #327bff;
+            --dark: #17152c;
+            --dark-light: #24213e;
+            --white: #ffffff;
+            --gray: #aaa8bd;
+            --bg: #100f20;
+            --radius: 22px;
+            --transition: 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .container {
+            width: min(1180px, 90%);
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--yellow);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(30px, 4vw, 46px);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .section-description {
+            color: var(--gray);
+            max-width: 650px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        /* ==========================
+           2. HEADER / НАВИГАЦИЯ
+        ========================== */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(16, 15, 32, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .navbar {
+            min-height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 23px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--yellow), var(--orange));
+            color: var(--dark);
+            border-radius: 13px;
+            font-size: 24px;
+            font-weight: 900;
+            transform: rotate(-5deg);
+            box-shadow: 0 5px 20px rgba(255, 181, 35, 0.25);
+        }
+
+        .logo span {
+            color: var(--yellow);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            font-size: 13px;
+            font-weight: 700;
+            color: #d1cee2;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--yellow);
+        }
+
+        .nav-button {
+            padding: 12px 21px;
+            background: var(--yellow);
+            color: var(--dark) !important;
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* ==========================
+           3. HERO-БЛОК
+        ========================== */
+
+        .hero {
+            min-height: 650px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 80% 30%, rgba(133, 60, 255, 0.27), transparent 40%),
+                radial-gradient(ellipse at 10% 90%, rgba(50, 123, 255, 0.18), transparent 40%),
+                var(--bg);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            top: -220px;
+            right: -80px;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -220px;
+            left: 30%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 50px;
+            padding: 90px 0;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 15px;
+            border: 1px solid rgba(255, 213, 46, 0.3);
+            background: rgba(255, 213, 46, 0.08);
+            color: var(--yellow);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+        }
+
+        .hero-tag span {
+            width: 7px;
+            height: 7px;
+            background: var(--yellow);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--yellow);
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 76px);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -3px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--yellow);
+            text-shadow: 0 5px 25px rgba(255, 213, 46, 0.2);
+        }
+
+        .hero-text {
+            max-width: 530px;
+            color: #b6b3cc;
+            font-size: 16px;
+            line-height: 1.9;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 26px;
+            border-radius: 13px;
+            font-size: 13px;
+            font-weight: 800;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--yellow), var(--orange));
+            color: var(--dark);
+            box-shadow: 0 8px 25px rgba(255, 174, 35, 0.22);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(255, 174, 35, 0.35);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+        }
+
+        /* Декоративная игровая карточка в Hero */
+
+        .hero-visual {
+            min-height: 420px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: var(--purple);
+            opacity: 0.25;
+            filter: blur(100px);
+            border-radius: 50%;
+        }
+
+        .hero-card {
+            position: relative;
+            z-index: 2;
+            width: 300px;
+            height: 365px;
+            padding: 25px;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #9a4cff, #4125a5);
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+            transform: rotate(5deg);
+            animation: floating 4s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: "★";
+            position: absolute;
+            font-size: 240px;
+            color: rgba(255, 255, 255, 0.08);
+            top: 55px;
+            left: 25px;
+        }
+
+        .hero-card-top,
+        .hero-card-bottom {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .hero-card-top {
+            letter-spacing: 2px;
+        }
+
+        .hero-card-star {
+            color: var(--yellow);
+            font-size: 25px;
+        }
+
+        .hero-emblem {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 175px;
+            height: 175px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yellow), var(--orange));
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            color: #48258a;
+            font-size: 67px;
+            font-weight: 900;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-card-bottom {
+            position: absolute;
+            left: 25px;
+            right: 25px;
+            bottom: 25px;
+        }
+
+        .hero-card-bottom strong {
+            color: var(--yellow);
+        }
+
+        .floating-chip {
+            position: absolute;
+            z-index: 3;
+            padding: 13px 18px;
+            background: rgba(34, 30, 61, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 13px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .chip-one {
+            top: 60px;
+            right: 0;
+            color: var(--yellow);
+            transform: rotate(6deg);
+        }
+
+        .chip-two {
+            bottom: 65px;
+            left: 0;
+            color: #72b3ff;
+            transform: rotate(-6deg);
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0) rotate(5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(2deg);
+            }
+        }
+
+        /* ==========================
+           4. О ПРОЕКТЕ
+        ========================== */
+
+        .about {
+            background: #17152b;
+            position: relative;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 65px;
+        }
+
+        .about-text p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .about-highlight {
+            color: var(--yellow);
+            font-weight: 800;
+        }
+
+        .about-visual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .about-box {
+            min-height: 155px;
+            padding: 25px;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #282344, #201d39);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+        }
+
+        .about-box:hover {
+            transform: translateY(-7px);
+            border-color: rgba(255, 213, 46, 0.3);
+        }
+
+        .about-box:nth-child(2) {
+            background: linear-gradient(145deg, #38235c, #261c45);
+        }
+
+        .about-box:nth-child(3) {
+            background: linear-gradient(145deg, #203b68, #1b2749);
+        }
+
+        .about-box:nth-child(4) {
+            background: linear-gradient(145deg, #663a25, #392335);
+        }
+
+        .about-icon {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        .about-box h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .about-box p {
+            color: var(--gray);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* ==========================
+           5. ПРЕИМУЩЕСТВА
+        ========================== */
+
+        .features {
+            background: var(--bg);
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-heading .section-description {
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .feature-card {
+            padding: 32px 28px;
+            background: var(--dark-light);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(133, 60, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            width: 55px;
+            height: 55px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: rgba(255, 213, 46, 0.12);
+            font-size: 26px;
+            margin-bottom: 22px;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: rgba(133, 60, 255, 0.18);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: rgba(50, 123, 255, 0.18);
+        }
+
+        .feature-card h3 {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ==========================
+           6. КАТАЛОГ БОЙЦОВ
+        ========================== */
+
+        .fighters {
+            background:
+                radial-gradient(ellipse at 90% 20%, rgba(133, 60, 255, 0.13), transparent 35%),
+                #17152b;
+        }
+
+        .fighters-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 45px;
+        }
+
+        .fighters-note {
+            color: var(--gray);
+            font-size: 12px;
+            max-width: 250px;
+            text-align: right;
+        }
+
+        .fighters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .fighter-card {
+            position: relative;
+            background: linear-gradient(145deg, #282441, #201e37);
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: var(--transition);
+        }
+
+        .fighter-card:hover {
+            transform: translateY(-9px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+            border-color: rgba(255, 213, 46, 0.3);
+        }
+
+        .fighter-avatar {
+            height: 190px;
+            display: grid;
+            place-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fighter-avatar::before,
+        .fighter-avatar::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        .fighter-avatar::before {
+            width: 190px;
+            height: 190px;
+            top: -90px;
+            left: -40px;
+        }
+
+        .fighter-avatar::after {
+            width: 120px;
+            height: 120px;
+            bottom: -70px;
+            right: -20px;
+        }
+
+        .avatar-initial {
+            position: relative;
+            z-index: 2;
+            width: 110px;
+            height: 110px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.16);
+            color: white;
+            font-size: 43px;
+            font-weight: 900;
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .fighter-card:hover .avatar-initial {
+            transform: scale(1.1) rotate(-8deg);
+        }
+
+        .shelly {
+            background: linear-gradient(135deg, #a34bba, #5e3bc7);
+        }
+
+        .colt {
+            background: linear-gradient(135deg, #318df2, #2444af);
+        }
+
+        .spike {
+            background: linear-gradient(135deg, #4ebd71, #167c63);
+        }
+
+        .leon {
+            background: linear-gradient(135deg, #e5a92a, #c34a28);
+        }
+
+        .jessie {
+            background: linear-gradient(135deg, #ee7951, #b53a63);
+        }
+
+        .darryl {
+            background: linear-gradient(135deg, #4089a9, #2b387d);
+        }
+
+        .fighter-content {
+            padding: 23px;
+        }
+
+        .fighter-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .fighter-name {
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .fighter-rarity {
+            padding: 5px 9px;
+            border-radius: 7px;
+            background: rgba(255, 213, 46, 0.12);
+            color: var(--yellow);
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .fighter-class {
+            display: inline-block;
+            color: #9b89ff;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 13px;
+        }
+
+        .fighter-content p {
+            color: var(--gray);
+            font-size: 12px;
+            line-height: 1.8;
+            min-height: 65px;
+        }
+
+        .fighter-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 18px 0;
+        }
+
+        .fighter-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #85819e;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .fighter-footer span:last-child {
+            color: var(--yellow);
+        }
+
+        /* ==========================
+           7. CTA / ПРИЗЫВ К ДЕЙСТВИЮ
+        ========================== */
+
+        .cta-section {
+            padding: 85px 0;
+            background: var(--bg);
+        }
+
+        .cta-box {
+            position: relative;
+            overflow: hidden;
+            padding: 65px 35px;
+            text-align: center;
+            border-radius: 30px;
+            background: linear-gradient(110deg, #6531c7, #354dc2);
+            box-shadow: 0 20px 50px rgba(56, 44, 159, 0.2);
+        }
+
+        .cta-box::before {
+            content: "★";
+            position: absolute;
+            top: -80px;
+            left: 5%;
+            font-size: 230px;
+            color: rgba(255, 255, 255, 0.06);
+            transform: rotate(-15deg);
+        }
+
+        .cta-box::after {
+            content: "★";
+            position: absolute;
+            bottom: -100px;
+            right: 5%;
+            font-size: 260px;
+            color: rgba(255, 255, 255, 0.06);
+        }
+
+        .cta-box h2 {
+            position: relative;
+            z-index: 2;
+            font-size: clamp(27px, 4vw, 42px);
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .cta-box p {
+            position: relative;
+            z-index: 2;
+            max-width: 570px;
+            margin: 0 auto 27px;
+            color: #ded9ff;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .cta-box .btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ==========================
+           8. FOOTER / КОНТАКТЫ
+        ========================== */
+
+        .footer {
+            background: #0b0a18;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 65px 0 25px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr;
+            gap: 50px;
+            padding-bottom: 45px;
+        }
+
+        .footer-about p {
+            max-width: 330px;
+            color: var(--gray);
+            font-size: 12px;
+            line-height: 1.9;
+            margin-top: 18px;
+        }
+
+        .footer-column h3 {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .footer-links a {
+            width: fit-content;
+            color: var(--gray);
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--yellow);
+            transform: translateX(4px);
+        }
+
+        .footer-bottom {
+            padding-top: 23px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-bottom p {
+            color: #77738e;
+            font-size: 11px;
+        }
+
+        .footer-disclaimer {
+            max-width: 500px;
+            text-align: right;
+        }
+
+        /* ==========================
+           9. АДАПТИВНОСТЬ
+        ========================== */
+
+        @media (max-width: 900px) {
+            .hero-content {
+                grid-template-columns: 1fr 0.8fr;
+                gap: 20px;
+            }
+
+            .hero-card {
+                width: 260px;
+                height: 330px;
+            }
+
+            .hero-emblem {
+                width: 145px;
+                height: 145px;
+                font-size: 55px;
+            }
+
+            .about-grid {
+                gap: 35px;
+            }
+
+            .fighters-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                gap: 15px;
+            }
+
+            .feature-card {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                min-height: 70px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                padding: 25px 5%;
+                background: #17152b;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 20px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu a {
+                display: block;
+                font-size: 14px;
+            }
+
+            .nav-button {
+                text-align: center;
+            }
+
+            .hero {
+                min-height: auto;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                padding: 75px 0 60px;
+                text-align: center;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .hero-text {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                min-height: 390px;
+                margin-top: 10px;
+            }
+
+            .chip-one {
+                right: 5%;
+            }
+
+            .chip-two {
+                left: 5%;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-visual {
+                margin-top: 10px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                padding: 28px;
+            }
+
+            .fighters-header {
+                display: block;
+            }
+
+            .fighters-note {
+                max-width: none;
+                text-align: left;
+                margin-top: 15px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 35px;
+            }
+
+            .footer-about {
+                grid-column: 1 / -1;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+
+            .footer-disclaimer {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 75px 0;
+            }
+
+            .hero h1 {
+                font-size: 43px;
+            }
+
+            .hero-text {
+                font-size: 14px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 15px 20px;
+            }
+
+            .hero-visual {
+                min-height: 350px;
+            }
+
+            .hero-card {
+                width: 230px;
+                height: 300px;
+            }
+
+            .hero-emblem {
+                width: 130px;
+                height: 130px;
+                font-size: 48px;
+            }
+
+            .floating-chip {
+                font-size: 10px;
+                padding: 10px 12px;
+            }
+
+            .about-visual {
+                gap: 10px;
+            }
+
+            .about-box {
+                padding: 18px;
+                min-height: 140px;
+            }
+
+            .fighters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fighter-avatar {
+                height: 180px;
+            }
+
+            .fighter-content p {
+                min-height: auto;
+            }
+
+            .cta-box {
+                padding: 50px 22px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-about {
+                grid-column: auto;
+            }
+        }
+
+        /* Учитываем настройки уменьшения анимации */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==========================
+         HEADER / НАВИГАЦИЯ
+    ========================== -->
+
+    <header class="header">
+        <div class="container navbar">
+
+            <a href="#home" class="logo">
+                <div class="logo-icon">B</div>
+                Brawl<span>Pedia</span>
+            </a>
+
+            <button class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Открыть меню"
+                    aria-expanded="false"
+                    aria-controls="navMenu">
+                ☰
+            </button>
+
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#about">О проекте</a></li>
+                    <li><a href="#features">Возможности</a></li>
+                    <li><a href="#fighters">Бойцы</a></li>
+                    <li><a href="#contacts" class="nav-button">Контакты</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- ==========================
+             HERO-БЛОК
+        ========================== -->
+
+        <section class="hero" id="home">
+            <div class="container hero-content">
+
+                <div class="hero-info">
+
+                    <div class="hero-tag">
+                        <span></span>
+                        ФАН-ПОРТАЛ ПО BRAWL STARS
+                    </div>
+
+                    <h1>
+                        Твоя база<br>
+                        знаний о <span class="highlight">Brawl Stars</span>
+                    </h1>
+
+                    <p class="hero-text">
+                        Изучай бойцов, открывай новые тактики и становись
+                        настоящим мастером арены. Всё самое интересное
+                        о мире Brawl Stars в одном месте!
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#fighters" class="btn btn-primary">
+                            Смотреть бойцов <span>→</span>
+                        </a>
+
+                        <a href="#about" class="btn btn-secondary">
+                            О портале
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Декоративная карточка -->
+                <div class="hero-visual">
+
+                    <div class="hero-glow"></div>
+
+                    <div class="floating-chip chip-one">
+                        ⭐ Новые знания
+                    </div>
+
+                    <div class="hero-card">
+
+                        <div class="hero-card-top">
+                            <span>BRAWLPEDIA</span>
+                            <span class="hero-card-star">★</span>
+                        </div>
+
+                        <div class="hero-emblem">
+                            BP
+                        </div>
+
+                        <div class="hero-card-bottom">
+                            <span>МИР БОЙЦОВ</span>
+                            <strong>READY!</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="floating-chip chip-two">
+                        🎯 Тактики и гайды
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ==========================
+             О ПРОЕКТЕ
+        ========================== -->
+
+        <section class="section about" id="about">
+            <div class="container about-grid">
+
+                <div class="about-text">
+
+                    <span class="section-label">Кто мы такие?</span>
+
+                    <h2 class="section-title">
+                        Добро пожаловать<br>
+                        в BrawlPedia!
+                    </h2>
+
+                    <p>
+                        <span class="about-highlight">BrawlPedia</span> —
+                        фанатский информационный портал, созданный
+                        для поклонников мобильной игры Brawl Stars.
+                    </p>
+
+                    <p>
+                        Наша цель — собрать полезную информацию об игре
+                        в одном удобном месте. Здесь ты сможешь познакомиться
+                        с бойцами, узнать об их классах и редкости,
+                        а также найти полезные советы для своих матчей.
+                    </p>
+
+                    <p>
+                        Изучай материалы, открывай новые возможности
+                        и прокачивай свои игровые навыки вместе с нами!
+                    </p>
+
+                </div>
+
+                <div class="about-visual">
+
+                    <div class="about-box">
+                        <span class="about-icon">⚔️</span>
+                        <h3>Бойцы</h3>
+                        <p>Знакомство с персонажами и их особенностями.</p>
+                    </div>
+
+                    <div class="about-box">
+                        <span class="about-icon">🏆</span>
+                        <h3>Тактики</h3>
+                        <p>Идеи и советы для побед на арене.</p>
+                    </div>
+
+                    <div class="about-box">
+                        <span class="about-icon">📚</span>
+                        <h3>База знаний</h3>
+                        <p>Полезные материалы об игровом мире.</p>
+                    </div>
+
+                    <div class="about-box">
+                        <span class="about-icon">💡</span>
+                        <h3>Советы</h3>
+                        <p>Подсказки для новичков и опытных игроков.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ==========================
+             ВОЗМОЖНОСТИ ПОРТАЛА
+        ========================== -->
+
+        <section class="section features" id="features">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-label">Почему BrawlPedia?</span>
+
+                    <h2 class="section-title">
+                        Всё необходимое для игрока
+                    </h2>
+
+                    <p class="section-description">
+                        Удобная структура, полезная информация
+                        и материалы, которые помогут лучше разобраться в игре.
+                    </p>
+                </div>
+
+                <div class="features-grid">
+
+                    <article class="feature-card">
+                        <div class="feature-icon">🎮</div>
+                        <h3>Информация о бойцах</h3>
+                        <p>
+                            Узнавай о классах, редкости, особенностях
+                            и игровых возможностях разных персонажей.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Полезные стратегии</h3>
+                        <p>
+                            Изучай игровые советы, пробуй разные подходы
+                            и подбирай тактику для своих матчей.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">🌟</div>
+                        <h3>Удобная база знаний</h3>
+                        <p>
+                            Важная информация собрана в одном месте,
+                            чтобы нужные материалы было легко найти.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ==========================
+             КАТАЛОГ БОЙЦОВ
+        ========================== -->
+
+        <section class="section fighters" id="fighters">
+            <div class="container">
+
+                <div class="fighters-header">
+
+                    <div>
+                        <span class="section-label">Каталог персонажей</span>
+
+                        <h2 class="section-title">
+                            Популярные бойцы
+                        </h2>
+
+                        <p class="section-description">
+                            Познакомься с некоторыми героями Brawl Stars
+                            и узнай об их игровых особенностях.
+                        </p>
+                    </div>
+
+                    <p class="fighters-note">
+                        ⭐ Здесь представлены примеры карточек бойцов.
+                    </p>
+
+                </div>
+
+
+                <div class="fighters-grid">
+
+                    <!-- Шелли -->
+                    <article class="fighter-card">
+
+                        <div class="fighter-avatar shelly">
+                            <div class="avatar-initial">Ш</div>
+                        </div>
+
+                        <div class="fighter-content">
+
+                            <div class="fighter-top">
+                                <h3 class="fighter-name">Шелли</h3>
+                                <span class="fighter-rarity">Стартовая</span>
+                            </div>
+
+                            <span class="fighter-class">⚔️ Наноситель урона</span>
+
+                            <p>
+                                Универсальный боец с мощным дробовиком.
+                                Особенно опасна на близкой дистанции.
+                            </p>
+
+                            <div class="fighter-divider"></div>
+
+                            <div class="fighter-footer">
+                                <span>ТИП БОЙЦА</span>
+                                <span>АТАКА</span>
+                            </div>
+
+                        </div>
+                    </article>
+
+
+                    <!-- Кольт -->
+                    <article class="fighter-card">
+
+                        <div class="fighter-avatar colt">
+                            <div class="avatar-initial">К</div>
+                        </div>
+
+                        <div class="fighter-content">
+
+                            <div class="fighter-top">
+                                <h3 class="fighter-name">Кольт</h3>
+                                <span class="fighter-rarity">Редкий</span>
+                            </div>
+
+                            <span class="fighter-class">🎯 Стрелок</span>
+
+                            <p>
+                                Меткий стрелок с высокой скорострельностью.
+                                Эффективен на открытых участках карты.
+                            </p>
+
+                            <div class="fighter-divider"></div>
+
+                            <div class="fighter-footer">
+                                <span>ТИП БОЙЦА</span>
+                                <span>АТАКА</span>
+                            </div>
+
+                        </div>
+                    </article>
+
+
+                    <!-- Спайк -->
+                    <article class="fighter-card">
+
+                        <div class="fighter-avatar spike">
+                            <div class="avatar-initial">С</div>
+                        </div>
+
+                        <div class="fighter-content">
+
+                            <div class="fighter-top">
+                                <h3 class="fighter-name">Спайк</h3>
+                                <span class="fighter-rarity">Легендарный</span>
+                            </div>
+
+                            <span class="fighter-class">💥 Наноситель урона</span>
+
+                            <p>
+                                Колючий герой, чьи атаки разлетаются
+                                в разные стороны и мешают противникам.
+                            </p>
+
+                            <div class="fighter-divider"></div>
+
+                            <div class="fighter-footer">
+                                <span>ТИП БОЙЦА</span>
+                                <span>АТАКА</span>
+                            </div>
+
+                        </div>
+                    </article>
+
+
+                    <!-- Леон -->
+                    <article class="fighter-card">
+
+                        <div class="fighter-avatar leon">
+                            <div class="avatar-initial">Л</div>
+                        </div>
+
+                        <div class="fighter-content">
+
+                            <div class="fighter-top">
+                                <h3 class="fighter-name">Леон</h3>
+                                <span class="fighter-rarity">Легендарный</span>
+                            </div>
+
+                            <span class="fighter-class">🥷 Убийца</span>
+
+                            <p>
+                                Быстрый и скрытный боец, способный
+                                незаметно приблизиться к противнику.
+                            </p>
+
+                            <div class="fighter-divider"></div>
+
+                            <div class="fighter-footer">
+                                <span>ТИП БОЙЦА</span>
+                                <span>СКРЫТНОСТЬ</span>
+                            </div>
+
+                        </div>
+                    </article>
+
+
+                    <!-- Джесси -->
+                    <article class="fighter-card">
+
+                        <div class="fighter-avatar jessie">
+                            <div class="avatar-initial">Д</div>
+                        </div>
+
+                        <div class="fighter-content">
+
+                            <div class="fighter-top">
+                                <h3 class="fighter-name">Джесси</h3>
+                                <span class="fighter-rarity">Сверхредкая</span>
+                            </div>
+
+                            <span class="fighter-class">🛠️ Контроль</span>
+
+                            <p>
+                                Использует энергетическое оружие и турель,
+                                помогая контролировать пространство.
+                            </p>
+
+                            <div class="fighter-divider"></div>
+
+                            <div class="fighter-footer">
+                                <span>ТИП БОЙЦА</span>
+                                <span>КОНТРОЛЬ</span>
+                            </div>
+
+                        </div>
+                    </article>
+
+
+                    <!-- Дэррил -->
+                    <article class="fighter-card">
+
+                        <div class="fighter-avatar darryl">
+                            <div class="avatar-initial">Д</div>
+                        </div>
+
+                        <div class="fighter-content">
+
+                            <div class="fighter-top">
+                                <h3 class="fighter-name">Дэррил</h3>
+                                <span class="fighter-rarity">Сверхредкий</span>
+                            </div>
+
+                            <span class="fighter-class">🛡️ Танк</span>
+
+                            <p>
+                                Прочный боец, который использует перекат,
+                                чтобы быстро сближаться с противниками.
+                            </p>
+
+                            <div class="fighter-divider"></div>
+
+                            <div class="fighter-footer">
+                                <span>ТИП БОЙЦА</span>
+                                <span>ЗАЩИТА</span>
+                            </div>
+
+                        </div>
+                    </article>
+
+                </div>
+
+                <p style="color: #85819e; font-size: 11px; margin-top: 25px;">
+                    Примечание: информация о бойцах приведена в ознакомительных
+                    целях и может меняться с обновлениями игры.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ==========================
+             CTA-БЛОК
+        ========================== -->
+
+        <section class="cta-section">
+            <div class="container">
+
+                <div class="cta-box">
+
+                    <h2>Готов стать легендой арены?</h2>
+
+                    <p>
+                        Изучай бойцов, находи полезные советы
+                        и открывай для себя новые возможности Brawl Stars
+                        вместе с BrawlPedia!
+                    </p>
+
+                    <a href="#fighters" class="btn btn-primary">
+                        Выбрать бойца →
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ==========================
+         FOOTER / КОНТАКТЫ
+    ========================== -->
+
+    <footer class="footer" id="contacts">
+        <div class="container">
+
+            <div class="footer-content">
+
+                <div class="footer-about">
+
+                    <a href="#home" class="logo">
+                        <div class="logo-icon">B</div>
+                        Brawl<span>Pedia</span>
+                    </a>
+
+                    <p>
+                        Независимый фан-портал, посвящённый мобильной игре
+                        Brawl Stars. Изучай игровой мир, узнавай больше
+                        о бойцах и совершенствуй свои навыки!
+                    </p>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Навигация</h3>
+
+                    <div class="footer-links">
+                        <a href="#home">Главная</a>
+                        <a href="#about">О проекте</a>
+                        <a href="#features">Возможности</a>
+                        <a href="#fighters">Каталог бойцов</a>
+                    </div>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Официальные ресурсы</h3>
+
+                    <div class="footer-links">
+                        <a href="https://supercell.com/en/games/brawlstars/"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            Brawl Stars
+                        </a>
+
+                        <a href="https://supercell.com/"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            Supercell
+                        </a>
+
+                        <a href="https://support.supercell.com/brawl-stars/en/"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            Центр поддержки
+                        </a>
+
+                        <!-- Замените адрес на актуальную почту проекта -->
+                        <a href="mailto:YOUR_EMAIL@example.com">
+                            Написать нам ✉
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <p>
+                    © 2026 BrawlPedia. Все права защищены.
+                </p>
+
+                <p class="footer-disclaimer">
+                    BrawlPedia — независимый фанатский проект.
+                    Не связан с Supercell и не является официальным ресурсом игры.
+                </p>
+
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- ==========================
+         JAVASCRIPT: МОБИЛЬНОЕ МЕНЮ
+    ========================== -->
+
+    <script>
+        const menuToggle = document.getElementById("menuToggle");
+        const navMenu = document.getElementById("navMenu");
+
+        // Открытие и закрытие мобильного меню
+        menuToggle.addEventListener("click", () => {
+            const isOpen = navMenu.classList.toggle("active");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Закрыть меню" : "Открыть меню"
+            );
+
+            menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        // Закрытие меню после перехода к разделу
+        navMenu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navMenu.classList.remove("active");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Открыть меню");
+                menuToggle.textContent = "☰";
+            });
+        });
+    </script>
+
+</body>
+</html>
